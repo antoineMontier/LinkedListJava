@@ -53,6 +53,10 @@ public class LinkedList {
      */
     public void addTail(Object otail) {
         Cell t = new Cell(otail);
+        if(isEmpty()){
+          tail = t;
+          head = t;
+        }
         tail.setnext(t);
         tail = t;
     }
@@ -70,6 +74,10 @@ public class LinkedList {
      */
     public void addHead(Object oHead){
         Cell h = new Cell(oHead);
+        if(isEmpty()){
+          tail = h;
+          head = h;
+        }
         h.setnext(head);
         head = h;
     }
@@ -97,7 +105,7 @@ public class LinkedList {
     }
 
     /**
-     * destroy the tail, the cell before the tail become the new tail
+     * destroy the tail, the cell before the tail become the new tail // working perfectly
      */
     public void removeTail(){
         if(isEmpty()){
@@ -176,7 +184,7 @@ public class LinkedList {
     public void insertHere(int pos, Object o){
         //3 exceptions
         if(pos > size() || pos < 0){
-            throw new IllegalArgumentException("bad index (" + pos + ") for the list " + this + " in the insertHere function");
+            throw new IllegalArgumentException("bad index \"" + pos + "\" for the list " + this + " in the insertHere function");
         }
         if(pos == 0){
             addHead(o);
@@ -197,7 +205,7 @@ public class LinkedList {
             temp = temp.getnext();
         }
         //here, temp is the cell just before the "pos" cell
-        
+
         Cell newbie = new Cell(o);
         newbie.setnext(temp.getnext());
         temp.setnext(newbie);
@@ -206,11 +214,11 @@ public class LinkedList {
 
 
     /**
-     * @param pos is the position of the cell we need to remove ; 0 means you remove the head, size()-1 means you remove the tail and n means you remove the n cell 
+     * @param pos is the position of the cell we need to remove ; 0 means you remove the head, size()-1 means you remove the tail and n means you remove the n cell // working perfectly
      */
     public void removeCell(int pos){
         if(pos >= size() || pos < 0){
-            throw new IllegalArgumentException("bad index (" + pos + ") for the list " + this + " in the remove function");
+            throw new IllegalArgumentException("bad index \"" + pos + "\" for the list " + this + " in the remove function");
         }
         if(pos == 0){
             removeHead();
@@ -235,4 +243,122 @@ public class LinkedList {
         temp.setnext(temp2.getnext());
         temp2 = null;
     }
+
+    /**
+     * @param n is the index of the first value we want to swap
+     * @param m is the index of the second value we want to swap
+     */
+    public void swap(int n, int m){
+
+      //two exceptions to catch (if the index ar out of the bounds of the arraylist)
+
+      if(n >= size() || n < 0){
+          throw new IllegalArgumentException("bad index \"" + n + "\" for the list " + this + " in the remove function");
+      }
+      if(m >= size() || m < 0){
+          throw new IllegalArgumentException("bad index \"" + m + "\" for the list " + this + " in the remove function");
+      }
+
+      //exception if the user wants to swap the same cell : do nothing
+
+      if(n == m){
+        return;
+      }
+
+      //here, n and m are differents and are both linked to an element inside the linkedlist
+
+      Cell temp1 = new Cell();
+      temp1.setnext(head);
+
+      Cell temp2 = new Cell();
+      temp2.setnext(head);
+
+      for(int i = 0 ; i <= n ; i++){
+        temp1 = temp1.getnext();
+      }
+
+      for(int i = 0 ; i <= m ; i++){
+        temp2 = temp2.getnext();
+      }
+
+      //here, temp1 is on the n cell and temp2 is on the m cell
+
+      Object buffer = temp1.getcontent();
+      temp1.setcontent(temp2.getcontent());
+      temp2.setcontent(buffer);
+
+      buffer = null;
+    }
+
+    /**
+     * reverse the order of the list, for example : [a, b, c] => [c, b, a]
+     */
+    public void reverse(){
+      if(isEmpty() || size() == 1){//no modifications to do if the list has 0 or 1 element
+        return;
+      }
+      for(int i = 0 ; i < size()/2  ; i++){
+        swap(i, size()-i-1);
+      }
+    }
+
+
+
+    /**
+     * this method creates a new list which is the result of the merge of this and l (in this precise order)
+     * @param l is the list we want to merge
+     */
+    public LinkedList merge(LinkedList l){
+
+      if(isEmpty()){//if this is empty, no changes to do on l with the same head as this
+        return l;
+      }
+      if(l.isEmpty()){//if l is empty, no chnages to do on this
+        return this;
+      }
+
+      LinkedList res = new LinkedList();//create a new linkedlist (for the result)
+
+      Cell temp = new Cell();
+      temp.setnext(head);
+      temp = temp.getnext();
+
+      while(!temp.equals(tail)){
+        res.addTail(temp);
+        temp = temp.getnext();
+      }
+      res.addTail(tail); //here, tail contains the linkedlist 'this' (from head to tail include)
+
+      temp.setnext(l.getHead());
+      temp = temp.getnext();//temp is the head of the second List
+
+      while(!temp.equals(l.getTail())){
+        res.addTail(temp);
+        temp = temp.getnext();
+      }
+
+      res.addTail(l.getTail());
+      return res;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
