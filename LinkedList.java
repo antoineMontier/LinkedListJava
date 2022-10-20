@@ -26,8 +26,9 @@ public class LinkedList {
      * @param nhead is the head we want to set as the head of the new Linked List
      */
     public LinkedList(Cell nhead){
-        head = nhead;
-        tail = nhead;
+      Cell h = new Cell(nhead);
+        head = h;
+        tail = h;
     }
 
     public LinkedList(Object nObjhead){
@@ -354,16 +355,50 @@ public class LinkedList {
     }
 
 
+ 
+    /**
+     * @param x first num object to compare
+     * @param y second num object to compare
+     * @return  -1 if x < y ; 0 if x == y ; 1 if x > y
+     * used to compare int and double or short and float AND strings between them
+     */
+    public static int compare(Object x, Object y){
 
-    public static boolean sup(double x, double y){
-      return x > y;
+      if(type(x) == 0 || type(y) == 0){
+        throw new IllegalArgumentException("the object " + x + " cannot be compared to " + y);
+      }
+
+      if(type(x) != type(y)){
+        return 2;//don't make an error if it's a string and a num, just a 2 to continue code
+      }
+
+      String xstr = x.toString(); 
+      String ystr = y.toString(); 
+      
+
+      if(type(x) == 2 && type(y) == 2){//if both the objects are string
+        return stringCompare(xstr, ystr);
+      }
+
+
+
+      double dx = Double.valueOf(xstr).doubleValue();
+      double dy = Double.valueOf(ystr).doubleValue();
+
+      if(dx > dy){//both objects are numbers
+        return 1;
+      }
+      if(dx < dy){
+        return -1;
+      }
+      return 0;
     }
 
 
      // This method compares two strings
     // lexicographically without using
     // library functions
-    public static int stringCompare(String str1, String str2){
+    private static int stringCompare(String str1, String str2){
 
         int l1 = str1.length();
         int l2 = str2.length();
@@ -377,15 +412,9 @@ public class LinkedList {
                 return str1_ch - str2_ch;
             }
         }
-
-        // Edge case for strings like
-        // String 1="Geeks" and String 2="Geeksforgeeks"
         if (l1 != l2) {
             return l1 - l2;
         }
-
-        // If none of the above conditions is true,
-        // it implies both the strings are equal
         else {
             return 0;
         }
@@ -407,7 +436,15 @@ public class LinkedList {
 
 
 
+    /**
+     * sort the list with the numeric rule or the string rule, hybrid lists cannot be sorted with this methode
+     */
     public void sort(){
+
+      if(size() < 2){
+        return;// nothing to do for an empty list or a 1-element list
+      }
+
       //3 cases : the list is full of numericals obejcts (float, int, double....) -- the list is full of string objects -- the list is composed of at least 1 non-comparable objects
 
       // first step : detection :
@@ -419,8 +456,7 @@ public class LinkedList {
 
       for(int i = 1 ; i < size() ; i++){
         if(type != type(walker.getcontent())){
-          System.out.println("impossible to compare");
-          return;
+          throw new IllegalArgumentException("the list " + this + " is not made of the same type of comparables objects !");
         }
         walker = walker.getnext();
       }
@@ -429,26 +465,49 @@ public class LinkedList {
       if(type == 0){
         return; // because the objects aren't comparable
       }
-      if(type == 1){
-        //bubble sort
+      if(type == 1 || type == 2){
+        //bubble sort for numerical values
         int n = size() -2;
         int exchangeindex;
         while(n >= 0){
           exchangeindex = 0;
           for(int j = 0 ; j <= n ; j++){
-            if(get(j) > get(j+1)){
+            if(compare(get(j), get(j+1)) == 1){ //that means value at j is greater than value at j+1
               swap(j, j+1);
               exchangeindex = j;
             }
           }
           n = exchangeindex - 1;
         }
+        return;//the list is sorted
       }
-
-
     }
 
+    /**
+     * @param x the object we're searching fot
+     * @return if the object is present
+     * doesn't work properly with integer :/
+     */
+    public boolean contains(Object x){
 
+      if(size() == 0){
+        return false;
+      }
+      Cell walker = new Cell(head);
+      if(type(x) != 0){//special case for string and numerical objects
+        for(int  i = 0 ; i < size(); i++)
+        if(type(walker.getcontent()) != 0 && compare(x, walker.getcontent()) == 0){
+          return true;
+        }
+        walker = walker.getnext();
+      }else{
+        for(int  i = 0 ; i < size(); i++)
+        if(x.equals(walker.getcontent())){
+          return true;
+        }
+      }
+      return false;
+    }
 
 
 
