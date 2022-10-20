@@ -12,7 +12,7 @@ public class TestLinkedList {
         String b = new String("bb");
         String c = new String("cc");
 
-        byte x = 4;
+        //byte x = 4;
 
 
 
@@ -29,11 +29,11 @@ public class TestLinkedList {
         l2.addTail(b);
         l2.addTail(c);
 
-        LinkedList num = new LinkedList(13);
+        LinkedList num = new LinkedList(1.3);
         num.addHead(11);
         num.addHead(-1.3);
-        num.addHead(2);
-        num.addHead(72.235);
+        num.addHead(7);
+        num.addHead(0.00001);
 
 /*
         System.out.println("initial list ll: " + ll + " of size : "+ ll.size());
@@ -56,10 +56,12 @@ public class TestLinkedList {
 
         System.out.println("usorted list : " + num);
 
+
         num.sort();
 
         System.out.println("sorted list : " + num);
 
+        System.out.println("7 is present int the list : " + num.contains(7.0));
 
     }
 }
