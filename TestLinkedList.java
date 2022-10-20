@@ -12,6 +12,7 @@ public class TestLinkedList {
         String b = new String("bb");
         String c = new String("cc");
 
+        byte x = 4;
 
 
 
@@ -28,7 +29,13 @@ public class TestLinkedList {
         l2.addTail(b);
         l2.addTail(c);
 
+        LinkedList num = new LinkedList(13);
+        num.addHead(11);
+        num.addHead(-1.3);
+        num.addHead(2);
+        num.addHead(72.235);
 
+/*
         System.out.println("initial list ll: " + ll + " of size : "+ ll.size());
 
         ll.reverse();
@@ -39,7 +46,19 @@ public class TestLinkedList {
 
         System.out.println("initial list l2: " + l2 + " of size : "+ l2.size());
 
-        System.out.println("ll merged with l2 : " + ll.merge(l2) + " of size : "+ ll.merge(l2).size());
+      //  System.out.println("ll merged with l2 : " + ll.merge(l2) + " of size : "+ ll.merge(l2).size());
+
+
+        System.out.println("type of string aa : " + LinkedList.type(a) + " ---- " + a.getClass().getSimpleName());
+
+        System.out.println("type of byte x : " + LinkedList.type(x) + " ---- " + ((Object)x).getClass().getSimpleName());
+*/
+
+        System.out.println("usorted list : " + num);
+
+        num.sort();
+
+        System.out.println("sorted list : " + num);
 
 
     }

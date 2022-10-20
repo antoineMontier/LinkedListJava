@@ -139,12 +139,10 @@ public class LinkedList {
         }
 
         if(tail.equals(head)){//if the tail and the head are the same cell, the list is one element
-            System.out.println("list has one element");
             return r + head + "]";
         }
 
         if(head.getnext().equals(tail)){
-            System.out.println("list has two element");
             return r + head + ", " + tail + "]";
         }
 
@@ -301,6 +299,20 @@ public class LinkedList {
         swap(i, size()-i-1);
       }
     }
+    /**
+     * @return the content of the cell number n
+     */
+    public Object get(int n){
+      if(n >= size() || n < 0){
+          throw new IllegalArgumentException("bad index \"" + n + "\" for the list " + this + " in the remove function");
+      }
+      Cell buffer = new Cell();
+      buffer = head;
+      for(int i = 0 ; i < n ; i++){
+        buffer = buffer.getnext();
+      }
+      return buffer.getcontent();
+    }
 
 
 
@@ -343,7 +355,98 @@ public class LinkedList {
 
 
 
+    public static boolean sup(double x, double y){
+      return x > y;
+    }
 
+
+     // This method compares two strings
+    // lexicographically without using
+    // library functions
+    public static int stringCompare(String str1, String str2){
+
+        int l1 = str1.length();
+        int l2 = str2.length();
+        int lmin = Math.min(l1, l2);
+
+        for (int i = 0; i < lmin; i++) {
+            int str1_ch = (int)str1.charAt(i);
+            int str2_ch = (int)str2.charAt(i);
+
+            if (str1_ch != str2_ch) {
+                return str1_ch - str2_ch;
+            }
+        }
+
+        // Edge case for strings like
+        // String 1="Geeks" and String 2="Geeksforgeeks"
+        if (l1 != l2) {
+            return l1 - l2;
+        }
+
+        // If none of the above conditions is true,
+        // it implies both the strings are equal
+        else {
+            return 0;
+        }
+    }
+
+    /**
+     * @return 1 if the object is a number ; 0 if the object is a string ; 0 if it's not comparable
+     */
+    public static int type(Object o){
+      String x = o.getClass().getSimpleName();
+      if( stringCompare(x, "Integer") == 0 || stringCompare(x, "Float") == 0 || stringCompare(x, "Double") == 0 || stringCompare(x, "Short") == 0 || stringCompare(x, "Long") == 0 || stringCompare(x, "Byte") == 0 ){
+        return 1;
+      }
+      if(stringCompare(x,"String" ) == 0){
+        return 2;
+      }
+      return 0;
+    }
+
+
+
+    public void sort(){
+      //3 cases : the list is full of numericals obejcts (float, int, double....) -- the list is full of string objects -- the list is composed of at least 1 non-comparable objects
+
+      // first step : detection :
+      Cell walker = new Cell();
+      walker.setnext(head);
+      walker = walker.getnext();//walker is the header Cell
+
+      int type = type(head.getcontent());//type is initialized by header cell's type
+
+      for(int i = 1 ; i < size() ; i++){
+        if(type != type(walker.getcontent())){
+          System.out.println("impossible to compare");
+          return;
+        }
+        walker = walker.getnext();
+      }
+
+      //here, the list is full of comparable elements of the same comparable type
+      if(type == 0){
+        return; // because the objects aren't comparable
+      }
+      if(type == 1){
+        //bubble sort
+        int n = size() -2;
+        int exchangeindex;
+        while(n >= 0){
+          exchangeindex = 0;
+          for(int j = 0 ; j <= n ; j++){
+            if(get(j) > get(j+1)){
+              swap(j, j+1);
+              exchangeindex = j;
+            }
+          }
+          n = exchangeindex - 1;
+        }
+      }
+
+
+    }
 
 
 
