@@ -1,6 +1,5 @@
 public class LinkedList {
 
-
     /**
      * pointeur to the header cell of the list
      */
@@ -363,32 +362,37 @@ public class LinkedList {
      * used to compare int and double or short and float AND strings between them
      */
     public static int compare(Object x, Object y){
-
+      //System.out.println("comparing "+ x + " and "+y);
       if(type(x) == 0 || type(y) == 0){
         throw new IllegalArgumentException("the object " + x + " cannot be compared to " + y);
       }
+      //System.out.println("same type");
 
       if(type(x) != type(y)){
-        return 2;//don't make an error if it's a string and a num, just a 2 to continue code
+        return 2;//don't make an error if it's a string and a num, just a 2 to continue other code using this methode
       }
 
       String xstr = x.toString(); 
       String ystr = y.toString(); 
       
-
       if(type(x) == 2 && type(y) == 2){//if both the objects are string
         return stringCompare(xstr, ystr);
       }
+      //System.out.println("not a string");
 
+      final double PRECISION = 0.01;//will be used for the contains(obj x) function
 
 
       double dx = Double.valueOf(xstr).doubleValue();
       double dy = Double.valueOf(ystr).doubleValue();
 
-      if(dx > dy){//both objects are numbers
+      //System.out.println("comparing "+ dx + " and "+dy);
+
+
+      if(dx > dy + PRECISION){//both objects are numbers
         return 1;
       }
-      if(dx < dy){
+      if(dx < dy - PRECISION){
         return -1;
       }
       return 0;
@@ -421,7 +425,7 @@ public class LinkedList {
     }
 
     /**
-     * @return 1 if the object is a number ; 0 if the object is a string ; 0 if it's not comparable
+     * @return 1 if the object is a double ; 2 if the object is an Integer ; 3 if the object is a string ; 0 if it's not comparable
      */
     public static int type(Object o){
       String x = o.getClass().getSimpleName();
@@ -495,11 +499,15 @@ public class LinkedList {
       }
       Cell walker = new Cell(head);
       if(type(x) != 0){//special case for string and numerical objects
-        for(int  i = 0 ; i < size(); i++)
-        if(type(walker.getcontent()) != 0 && compare(x, walker.getcontent()) == 0){
-          return true;
+        //System.out.println("searching for : " + x);
+        for(int  i = 0 ; i < size(); i++){
+          if(type(walker.getcontent()) != 0 && compare(x, walker.getcontent()) == 0){
+            return true;
+          }else{
+            //System.out.println(x + " != " + walker.getcontent());
+          }
+          walker = walker.getnext();
         }
-        walker = walker.getnext();
       }else{
         for(int  i = 0 ; i < size(); i++)
         if(x.equals(walker.getcontent())){
@@ -509,18 +517,160 @@ public class LinkedList {
       return false;
     }
 
+    /**
+     * @param o the object we're testing
+     * @return 1 > byte // 2 > short // 3 > int // 4 > long // 5 > float // 6 > double // 0 if non-numeric
+     */
+    private int numtype(Object o){
+      String x = o.getClass().getSimpleName();
+
+      if( stringCompare(x, "Integer") == 0 ){
+        return 3;
+      }
+      if(stringCompare(x, "Float") == 0){
+        return 5;
+      }
+      if(stringCompare(x, "Double") == 0){
+        return 6;
+      }
+      if(stringCompare(x, "Short") == 0){
+        return 2;
+      }
+      if(stringCompare(x, "Long") == 0){
+        return 4;
+      }
+      if(stringCompare(x, "Byte") == 0 ){
+        return 1;
+      }
+      return 0;
+    }
+
+    /**
+     * @return table of the elements of the LinkedList
+     * not working as i want to on the numerical values :/
+     */
+    public Object[] toTable(){
+
+      if(size() == 0){
+        return new Object[0];//empty exception
+      }
+      Object r[] = new Object[size()];
+      for(int i = 0 ; i < size() ; i ++){
+        r[i] = get(i);
+      }
+
+      return r;
 
 
+      //here, i wanted to make a special array for each type of data in order to answer more precisely the founction needs
+      /* 
+      int m = 0;
+      for(int  i = 0 ; i < size() ; i++){
+        if(numtype(get(i)) == 0){
+          m = 100;
+          i = size() - 1;
+          //exit the loop if one of the value isn't numeric
+        }
+        if(m < numtype(get(i))){
+          m = numtype(get(i));
+        }
+      }
+      // here m is the "largest" type of number in the table
+      // or 0 if the table need to be declared with Object type ;
 
+      if(m == 1){
+        byte r[] = new byte[size()];
+        for(int i = 0 ; i < size() ; i ++){
+          r[i] = (byte)get(i);
+        }
+        return r;
+      }
+      if(m == 2){
+        short r[] = new short[size()];
+        for(int i = 0 ; i < size() ; i ++){
+          r[i] = (short)get(i);
+        }
+        return r;
+      }
+      if(m == 3){
+        int r[] = new int[size()];
+        for(int i = 0 ; i < size() ; i ++){
+          r[i] = (int)get(i);
+        }
+        return r;
+      }
+      if(m == 4){
+        long r[] = new long[size()];
+        for(int i = 0 ; i < size() ; i ++){
+          r[i] = (long)get(i);
+        }
+        return r;
+      }
+      if(m == 5){
+        float r[] = new float[size()];
+        for(int i = 0 ; i < size() ; i ++){
+          r[i] = (float)get(i);
+        }
+        return r;
+      }
+      if(m == 6){
+        double r[] = new double[size()];
+        for(int i = 0 ; i < size() ; i ++){
+          r[i] = (double)get(i);
+        }
+        return r;
+      }
+      Object r[] = new Object[size()];
+      for(int i = 0 ; i < size() ; i ++){
+      r[i] = get(i);
+        
+      return r;
+      */
+    }
+  
+    public double max(){
+      if(size() == 0){
+        return 0;
+      }
+      if(size() == 1){
+        return (double)get(0);
+      }
 
+      double d = -1874585985;//random number to know if d has been modified after initialisation
 
+      for(int i = 0 ; i < size() ; i ++){               //initialization of d asap
+        if(type(get(i)) == 1 && compare(get(i), d) == 1 || d == -1874585985){
+          String s = get(i).toString();
+          d = Double.valueOf(s).doubleValue();
+        }
+      }
 
+      if(d == -1874585985){//if d hasn't been changed return 0...
+        return 0;
+      }
 
+      return d;
 
-
+    }
 
 
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

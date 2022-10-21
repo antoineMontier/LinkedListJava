@@ -63,5 +63,9 @@ public class TestLinkedList {
 
         System.out.println("7 is present int the list : " + num.contains(7.0));
 
+
+        System.out.println("max of the list : " + ll.max());
+
+
     }
 }
