@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
 public class LinkedList {
 
     /**
@@ -519,7 +532,7 @@ public class LinkedList {
 
     /**
      * @param o the object we're testing
-     * @return 1 > byte // 2 > short // 3 > int // 4 > long // 5 > float // 6 > double // 0 if non-numeric
+     * @return 1 : byte // 2 : short // 3 : int // 4 : long // 5 : float // 6 : double // 0 : non-numeric
      */
     private int numtype(Object o){
       String x = o.getClass().getSimpleName();
@@ -628,6 +641,9 @@ public class LinkedList {
       */
     }
   
+    /**
+     * @return the max num value of an array (interpreted as string : for example the string "44" can be compared to the num 37.5)
+     */
     public double max(){
       if(size() == 0){
         return 0;
@@ -653,10 +669,33 @@ public class LinkedList {
 
     }
 
+    /**
+     * @return the max num value of an array (interpreted as string : for example the string "44" can be compared to the num 37.5)
+     */
+    public double min(){
+      if(size() == 0){
+        return 0;
+      }
+      if(size() == 1){
+        return (double)get(0);
+      }
 
+      double d = -1874585985;//random number to know if d has been modified after initialisation
 
+      for(int i = 0 ; i < size() ; i ++){               //initialization of d asap
+        if(type(get(i)) == 1 && compare(get(i), d) == -1 || d == -1874585985){
+          String s = get(i).toString();
+          d = Double.valueOf(s).doubleValue();
+        }
+      }
 
+      if(d == -1874585985){//if d hasn't been changed return 0...
+        return 0;
+      }
 
+      return d;
+
+    }
 }
 
 
