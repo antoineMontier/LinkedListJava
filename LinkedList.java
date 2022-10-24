@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 public class LinkedList {
 
     /**
@@ -38,9 +25,19 @@ public class LinkedList {
      * @param nhead is the head we want to set as the head of the new Linked List
      */
     public LinkedList(Cell nhead){
-      Cell h = new Cell(nhead);
-        head = h;
-        tail = h;
+      if(nhead == null){//empty cell exception
+        head = null;
+        tail = null;
+      }else if(nhead.getnext() == null){//lonely cell exception
+        head = nhead;
+        tail = nhead;
+      }else{
+        Cell walker = new Cell(head);
+        while(walker.getnext() != null){
+          walker = walker.getnext();
+        }
+        tail = walker;
+      }
     }
 
     public LinkedList(Object nObjhead){
@@ -69,6 +66,7 @@ public class LinkedList {
         if(isEmpty()){
           tail = t;
           head = t;
+          return;
         }
         tail.setnext(t);
         tail = t;
@@ -90,6 +88,7 @@ public class LinkedList {
         if(isEmpty()){
           tail = h;
           head = h;
+          return;
         }
         h.setnext(head);
         head = h;
@@ -99,7 +98,7 @@ public class LinkedList {
      * @return if the linkedlist is empty or not (if the header cell exists or not)
      */
     public boolean isEmpty(){
-        return head == null; //the list is empty if the header cell isn't already define
+        return head == null; //the list is empty if the header cell hasn't been defined
     }
 
     /**
@@ -155,7 +154,7 @@ public class LinkedList {
             return r + head + "]";
         }
 
-        if(head.getnext().equals(tail)){
+        if(head.getnext().equals(tail)){//third exception before the loop
             return r + head + ", " + tail + "]";
         }
 
@@ -697,19 +696,3 @@ public class LinkedList {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
