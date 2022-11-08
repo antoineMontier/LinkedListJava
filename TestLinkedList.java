@@ -23,17 +23,21 @@ public class TestLinkedList {
         ll.addHead(wdd);
         ll.insertHere(3, k);
 
-        LinkedList l2 = new LinkedList();
+        LinkedList l2 = new LinkedList(ll);
+
+        ll.removeHead();
 
         l2.addTail(a);
         l2.addTail(b);
         l2.addTail(c);
 
-        LinkedList num = new LinkedList(1.3);
+        System.out.println("list 1 " + ll + " \nlist 2 " + l2);
+
+        /*LinkedList num = new LinkedList(1.3);
         num.addHead(11);
         num.addHead(-1.3);
         num.addHead(7);
-        num.addHead(0.00001);
+        num.addHead(0.00001);*/
 
 /*
         System.out.println("initial list ll: " + ll + " of size : "+ ll.size());
@@ -54,7 +58,7 @@ public class TestLinkedList {
         System.out.println("type of byte x : " + LinkedList.type(x) + " ---- " + ((Object)x).getClass().getSimpleName());
 */
 
-        System.out.println("usorted list : " + num);
+       /* System.out.println("usorted list : " + num);
 
 
         num.sort();
@@ -64,7 +68,7 @@ public class TestLinkedList {
         System.out.println("7 is present int the list : " + num.contains(7.0));
 
 
-        System.out.println("max of the list : " + ll.max());
+        System.out.println("max of the list : " + ll.max());*/
 
 
     }
