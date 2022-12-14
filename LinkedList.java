@@ -48,6 +48,31 @@ public class LinkedList {
       }
     }
 
+    public LinkedList(LinkedList l){
+      if(l.getHead() == null){
+        head = null;
+        tail = null;
+      }else if(l.getHead().getnext() == null){
+        head = new Cell(l.getHead());
+        tail = new Cell(l.getHead());
+      }else{
+        head = new Cell(l.getHead());
+        Cell walker1 = new Cell(head);
+        Cell walker2 = new Cell(head.getnext());
+        //walker1.setnext(walker2);
+
+        while(walker2.getnext() != null){
+          walker1 = walker2;
+          walker2 = walker2.getnext();
+          Cell e = new Cell(walker2);
+          walker1.setnext(walker2);
+        }
+
+        walker1.setnext(walker2);
+        tail = walker2;
+      }
+    }
+
 
     /**
      * @param nhead is the head we want to set as the head of the new Linked List
