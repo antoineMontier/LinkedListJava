@@ -721,8 +721,15 @@ public class LinkedList {
     return d;
   }
 
-  public LinkedList<T> filter(Predicate p){
-    
-  }
+  public  LinkedList filter(Predicate<T> filter) {
+    LinkedList filteredList = new LinkedList();
+    for (int i = 0; i < size(); i++) {
+      T element = get(i);
+      if (filter.test(element)) {
+        filteredList.add(element);
+      }
+    }
+    return filteredList;
+  }  
 
 }
