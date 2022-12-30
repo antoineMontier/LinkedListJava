@@ -736,16 +736,31 @@ public class LinkedList {
   public LinkedList map(Function<T, U> mapfunction){
     LinkedList mappedList = new LinkedList();
     for(int i = 0; i < size(); i++) {
-      mappedList.pushTail(mapfunction.apply(get(i)));
+      mappedList.addHead(mapfunction.apply(get(i)));
     }
     return mappedList;
   }
 
   public LinkedList takeWhile(Predicate<T> filter){
-    LinkedList takelist = new LinkedList()
+    LinkedList takelist = new LinkedList();
     for(int i = 0 ; i < size() && filter.test(get(i)); i++){
-      takelist.pushTail(get(i));
+      takelist.addHead(get(i));
     }
+    takelist.reverse();
+    return takelist;
+  }
+
+  public LinkedList dropWhile(Predicate<T> filter){
+    LinkedList droplist = new LinkedList();
+    int i = 0;
+    while(filter.test(get(i))){
+      i++;
+    }
+    while(i < size()){
+      droplist.addHead(get(i));
+    }
+    droplist.reverse();
+    return droplist;
   }
 
 }
