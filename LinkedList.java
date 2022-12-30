@@ -741,4 +741,11 @@ public class LinkedList {
     return mappedList;
   }
 
+  public LinkedList takeWhile(Predicate<T> filter){
+    LinkedList takelist = new LinkedList()
+    for(int i = 0 ; i < size() && filter.test(get(i)); i++){
+      takelist.pushTail(get(i));
+    }
+  }
+
 }
