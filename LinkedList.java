@@ -1,3 +1,4 @@
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class LinkedList {
@@ -726,10 +727,18 @@ public class LinkedList {
     for (int i = 0; i < size(); i++) {
       T element = get(i);
       if (filter.test(element)) {
-        filteredList.add(element);
+        filteredList.pushTail(element);
       }
     }
     return filteredList;
-  }  
+  }
+
+  public LinkedList map(Function<T, U> mapfunction){
+    LinkedList mappedList = new LinkedList();
+    for(int i = 0; i < size(); i++) {
+      mappedList.pushTail(mapfunction.apply(get(i)));
+    }
+    return mappedList;
+  }
 
 }
