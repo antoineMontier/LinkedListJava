@@ -337,6 +337,15 @@ public class LinkedList {
     }
   }
 
+  public static void reverse(LinkedList l){
+    if(l.size() < 2){
+      return;
+    }
+    for(int i = 0; i < l.size() / 2; i++){
+      l.swap(i, l.size() - i - 1);
+    }
+  }
+
   /**
    * @return the content of the cell number n
    */
