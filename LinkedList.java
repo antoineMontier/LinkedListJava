@@ -564,6 +564,15 @@ public class LinkedList {
     return false;
   }
 
+  public static boolean contains(LinkedList l, Object x){
+    for(int i = 0; i < l.size(); i++){
+      if(l.get(i) == x){
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * @param o the object we're testing
    * @return 1 : byte // 2 : short // 3 : int // 4 : long // 5 : float // 6 :
