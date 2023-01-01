@@ -781,4 +781,9 @@ public class LinkedList {
     return droplist;
   }
 
+  void clear(){
+    head = null;
+    tail = null;
+  }
+
 }
